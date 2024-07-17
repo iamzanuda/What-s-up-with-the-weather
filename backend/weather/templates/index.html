@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Что там с погодой?</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Что там с погодой?</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.city }}
+            <button type="submit">Узнать</button>
+        </form>
+
+        {% if weather_data %}
+            <h2>Погода в {{ weather_data.city }}</h2>
+            <p>Температура: {{ weather_data.temperature }}°C</p>
+            <!-- Добавьте другие данные о погоде по желанию -->
+        {% endif %}
+    </div>
+</body>
+</html>
