@@ -18,8 +18,13 @@
 
         {% if weather_data %}
             <h2>Погода в {{ weather_data.city }}</h2>
-            <p>Температура: {{ weather_data.temperature }}°C</p>
-            <!-- Добавьте другие данные о погоде по желанию -->
+            <p>Температура: {{ weather_data.current.temperature_2m }}°C</p>
+            <p>Влажность: {{ weather_data.current.relative_humidity_2m }}%</p>
+            <p>День: {{ weather_data.current.is_day }}</p>
+            <p>Осадки: {{ weather_data.current.precipitation }} мм</p>
+            <p>Атмосферное давление: {{ weather_data.current.surface_pressure }} гПа</p>
+            <p>Скорость ветра: {{ weather_data.current.wind_speed_10m }} м/с</p>
+            <p>Порывы ветра: {{ weather_data.current.wind_gusts_10m }} м/с</p>
         {% endif %}
     </div>
 </body>
