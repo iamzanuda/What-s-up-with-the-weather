@@ -17,14 +17,41 @@
         </form>
 
         {% if weather_data %}
-            <h2>Погода в {{ weather_data.city }}</h2>
+            <h2>Сейчас в {{ weather_data.city }}</h2>
             <p>Температура: {{ weather_data.current.temperature_2m }}°C</p>
             <p>Влажность: {{ weather_data.current.relative_humidity_2m }}%</p>
-            <p>День: {{ weather_data.current.is_day }}</p>
             <p>Осадки: {{ weather_data.current.precipitation }} мм</p>
             <p>Атмосферное давление: {{ weather_data.current.surface_pressure }} гПа</p>
             <p>Скорость ветра: {{ weather_data.current.wind_speed_10m }} м/с</p>
             <p>Порывы ветра: {{ weather_data.current.wind_gusts_10m }} м/с</p>
+
+            <h2>А потом</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Время</th>
+                        <th>Температура (°C)</th>
+                        <th>Влажность (%)</th>
+                        <th>Вероятность осадков (%)</th>
+                        <th>Давление (гПа)</th>
+                        <th>Скорость ветра (м/с)</th>
+                        <th>Порывы ветра (м/с)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hour in weather_data.hourly %}
+                        <tr>
+                            <td>{{ hour.date }}</td>
+                            <td>{{ hour.temperature_2m }}</td>
+                            <td>{{ hour.relative_humidity_2m }}</td>
+                            <td>{{ hour.precipitation_probability }}</td>
+                            <td>{{ hour.surface_pressure }}</td>
+                            <td>{{ hour.wind_speed_10m }}</td>
+                            <td>{{ hour.wind_gusts_10m }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         {% endif %}
     </div>
 </body>
