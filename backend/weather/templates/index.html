@@ -12,7 +12,13 @@
         <h1>Что там с погодой?</h1>
         <form method="post">
             {% csrf_token %}
+            <br>
             {{ form.city }}
+            <br>
+            <small>{{ form.city.help_text }}</small>
+            <br>
+            {{ form.city.errors }}
+            <br>
             <button type="submit">Узнать</button>
         </form>
 
