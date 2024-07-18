@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .forms import CityForm
 
+
 class CityFormTest(TestCase):
     """
     Тесты для формы ввода города.
