@@ -18,9 +18,13 @@
 
    ```bash
    git clone git@github.com:iamzanuda/what-s-up-with-the-weather.git
-   cd what-s-up-with-the-weather
 
-2. Установите зависимости:
+2. Перейдите в директорию с файлом requirements.txt
+
+   ```bash
+   cd what-s-up-with-the-weather/backend/
+
+3. Установите зависимости:
 
    ```bash
    pip install -r requirements.txt
