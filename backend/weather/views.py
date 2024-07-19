@@ -1,11 +1,16 @@
 import datetime
 import json
+import os
 import urllib.request
 
 import pandas as pd
-from openmeteo_requests import Client
 from django.shortcuts import render
+from dotenv import load_dotenv
+from openmeteo_requests import Client
+
 from .forms import CityForm
+
+load_dotenv()
 
 # Устанавливаем клиент Open-Meteo API без кеширования
 openmeteo = Client()
@@ -34,7 +39,7 @@ def get_weather_data(request):
         city = form.cleaned_data['city']  # Извлечение названия города из формы
 
         # Получение координат города с помощью OpenCage Geocoding API
-        api_key = "7bfd1f0f7ac642d2a0afb5a327956a45"
+        api_key = '7bfd1f0f7ac642d2a0afb5a327956a45'
         coord_response = urllib.request.urlopen(f"https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}")
         coord_data = json.loads(coord_response.read())
 
