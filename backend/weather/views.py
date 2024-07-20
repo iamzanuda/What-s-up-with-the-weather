@@ -1,6 +1,6 @@
 import datetime
 import json
-import os
+import os  # Для библиотеки dotenv
 import urllib.request
 
 import pandas as pd
@@ -86,7 +86,7 @@ def get_weather_data(request):
 
             Returns:
                 float: Округленное до одной десятой значение переменной
-                или None, если значение не удалось получить.
+                    или None, если значение не удалось получить.
             """
 
             try:
@@ -123,9 +123,19 @@ def get_weather_data(request):
         # округление данных до ближайшего целого часа и вывод
         # только информации о времени
         current_time = datetime.datetime.now().replace(
-            minute=0, second=0, microsecond=0)
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+
         end_time = current_time + datetime.timedelta(hours=6)
-        time_range = pd.date_range(start=current_time, end=end_time, freq='h')
+
+        time_range = pd.date_range(
+            start=current_time,
+            end=end_time,
+            freq='h',
+        )
+        
         time_strings = [ts.strftime('%H:%M') for ts in time_range]
 
         hourly_data = {
