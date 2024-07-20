@@ -51,21 +51,21 @@ def get_weather_data(request):
         params = {
             "latitude": lat,
             "longitude": lng,
-            "current": [
-                "temperature_2m",
-                "relative_humidity_2m",
-                "precipitation",
-                "surface_pressure",
-                "wind_speed_10m",
-                "wind_gusts_10m",
+            "current": [  # Параметры для получения текущих погодных данных
+                "temperature_2m",  # Температура воздуха на высоте 2 метра
+                "relative_humidity_2m",  # Относительная влажность на высоте 2 метра
+                "precipitation",  # Количество осадков
+                "surface_pressure",  # Атмосферное давление на уровне поверхности
+                "wind_speed_10m",  # Скорость ветра на высоте 10 метров
+                "wind_gusts_10m",  # Порывы ветра на высоте 10 метров
             ],
-            "hourly": [
-                "temperature_2m",
-                "relative_humidity_2m",
-                "precipitation_probability",
-                "surface_pressure",
-                "wind_speed_10m",
-                "wind_gusts_10m",
+            "hourly": [  # Параметры для получения почасовых погодных данных
+                "temperature_2m",  # Температура воздуха на высоте 2 метра
+                "relative_humidity_2m",  # Относительная влажность на высоте 2 метра
+                "precipitation_probability",  # Вероятность осадков
+                "surface_pressure",  # Атмосферное давление на уровне поверхности
+                "wind_speed_10m",  # Скорость ветра на высоте 10 метров
+                "wind_gusts_10m",  # Порывы ветра на высоте 10 метров
             ]
         }
 
