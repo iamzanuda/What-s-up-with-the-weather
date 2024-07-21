@@ -4,7 +4,7 @@ from .validators import alpha_space_validator
 
 class CityForm(forms.Form):
     """
-    Форма для ввода названия города с автодополнением.
+    Форма для ввода названия города.
 
     Атрибуты:
     city (forms.CharField): Поле ввода для названия города. 

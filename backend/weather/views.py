@@ -1,6 +1,6 @@
 import datetime
 import json
-import os  # Для библиотеки dotenv
+import os
 import urllib.request
 
 import pandas as pd
@@ -39,15 +39,15 @@ def get_weather_data(request):
         city = form.cleaned_data['city']  # Извлечение названия города из формы
 
         # Получение координат города с помощью OpenCage Geocoding API
-        api_key = '7bfd1f0f7ac642d2a0afb5a327956a45'
-        coord_response = urllib.request.urlopen(f"https://api.opencagedata.com/geocode/v1/json?q={city}&key={api_key}")
+        OPEN_CAGE_GEO_API_URL = os.getenv('OPEN_CAGE_GEO_API_URL')
+        coord_response = urllib.request.urlopen(OPEN_CAGE_GEO_API_URL)
         coord_data = json.loads(coord_response.read())
 
         lat = coord_data['results'][0]['geometry']['lat']  # Широта
         lng = coord_data['results'][0]['geometry']['lng']  # Долгота
 
         # Установка параметров запроса к Open-Meteo API
-        url = "https://api.open-meteo.com/v1/forecast"
+        OPEN_METEO_API_URL = os.getenv('OPEN_METEO_API_URL')
         params = {
             "latitude": lat,
             "longitude": lng,
@@ -70,7 +70,7 @@ def get_weather_data(request):
         }
 
         # Получение ответа от Open-Meteo API
-        responses = openmeteo.weather_api(url, params=params)
+        responses = openmeteo.weather_api(OPEN_METEO_API_URL, params=params)
         response = responses[0]
 
         # Обработка текущих данных о погоде
