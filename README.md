@@ -1,7 +1,7 @@
 # What's Up with the Weather?
 
 This application is designed to retrieve and display weather information for a user-specified city. It uses two main APIs:
-- [OpenCage Geocoding API](https://opencagedata.com/) to get the coordinates of the city and 
+- [OpenCage Geocoding API](https://opencagedata.com/) to get the coordinates of the city.
 - [Open-Meteo API](https://open-meteo.com/) to fetch weather data.
 
 
@@ -12,6 +12,7 @@ This application is designed to retrieve and display weather information for a u
 - Pandas 2.2.2
 - HTML/CSS
 - Docker
+- Unittest
 - OpenCage Geocoding API
 - Open-Meteo API
 
