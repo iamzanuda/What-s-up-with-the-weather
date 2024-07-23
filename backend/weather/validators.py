@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 
-# Валидатор, разрешающий только буквы и пробелы
+# Validator that allows only letters and spaces
 alpha_space_validator = RegexValidator(
     regex=r'^[a-zA-Z\s]+$',
-    message='Это что такое? Давай-ка попробуем ввести название города английскими буковками.'
+    message="What is this? Let's try to enter the city name using English letters."
 )

@@ -1,70 +1,75 @@
-# Приложение "Что там с погодой?"
+# What's Up with the Weather?
 
-Это приложение предназначено для получения и отображения информации о погоде для указанного пользователем города. Для этого приложение использует два основных API: [OpenCage Geocoding API](https://opencagedata.com/) для получения координат города и [Open-Meteo API](https://open-meteo.com/) для получения данных о погоде.
+This application is designed to retrieve and display weather information for a user-specified city. It uses two main APIs:
+- [OpenCage Geocoding API](https://opencagedata.com/) to get the coordinates of the city and 
+- [Open-Meteo API](https://open-meteo.com/) to fetch weather data.
 
 
-## Используемые технологии и библиотеки
-- **Django 5.0.7**
-- **Python 3.12.3**
-- **Pandas 2.2.2**
-- **HTML/CSS**
-- **Docker**
-- **OpenCage Geocoding API**
-- **Open-Meteo API**
+## Technologies and Libraries Used
 
-## Установка
+- Django 5.0.7
+- Python 3.12.3
+- Pandas 2.2.2
+- HTML/CSS
+- Docker
+- OpenCage Geocoding API
+- Open-Meteo API
 
-1. Склонируйте репозиторий:
+## Installation
+
+1. Clone the repository:
 
    ```bash
    git clone git@github.com:iamzanuda/what-s-up-with-the-weather.git
 
-2. Перейдите в директорию с файлом requirements.txt
+2. Navigate to the directory with the requirements.txt file:
 
    ```bash
    cd what-s-up-with-the-weather/backend/
 
-3. Установите зависимости:
+3. Install the dependencies:
 
    ```bash
    pip install -r requirements.txt
 
-## Использование
+## Usage
 
-1. Запустите Django сервер:
+1. Start the Django server:
 
    ```bash
    python manage.py runserver
 
-2. Откройте браузер и перейдите по адресу http://localhost:8000.
+2. Open a browser and go to http://localhost:8000
 
-   Введите название города в форму на главной странице и нажмите кнопку "Узнать".
+   Enter the name of the city in the form on the main page and click the "Find Out" button.
 
-   После отправки формы вы увидите текущую погоду для указанного города и таблицу с почасовыми прогнозами на следующие 6 часов.
+   After submitting the form, you will see the current weather for the specified city and a table with hourly forecasts for the next 6 hours.
 
-## Запуск приложения в Docker
+## Running the Application in Docker
 
-Установите Docker: Следуйте инструкциям на сайте Docker для установки Docker на вашу операционную систему (https://docs.docker.com/get-docker/).
+Install Docker: Follow the instructions on the Docker website to install Docker for your operating system (https://docs.docker.com/get-docker/).
 
-1. Войдите в Docker Hub:
+1. Log in to Docker Hub:
 
    ```bash
    docker login
 
-2. Загрузите образ Docker:
+2. Pull the Docker image:
 
    ```bash
    docker pull mralmostfreeman/weather_backend:latest
    
-3. Запустите контейнер:
+3. Run the container:
 
    ```bash
    docker run --name weather_backend_container --rm -p 8000:8000 mralmostfreeman/weather_backend:latest
 
-Теперь ваше приложение должно быть доступно по адресу http://localhost:8000.
+Now your application should be accessible at http://localhost:8000
 
-## Лицензия
-Этот проект лицензируется в соответствии с лицензией MIT.
+## License
 
-## Автор
-Барамыков Я.
+This project is licensed under the MIT License.
+
+## Author
+
+Baramykov Ya.

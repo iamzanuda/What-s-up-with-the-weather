@@ -12,81 +12,80 @@ from .forms import CityForm
 
 load_dotenv()
 
-# Устанавливаем клиент Open-Meteo API без кеширования
+# Set up the Open-Meteo API client without caching
 openmeteo = Client()
-
 
 def get_weather_data(request):
     """
-    Обрабатывает запрос данных о погоде от пользователя.
+    Handles weather data requests from the user.
 
-    Эта функция предназначена для обработки POST-запроса от формы,
-    получения данных о погод для указанного города с использованием
-    API Open-Meteo и API OpenCage Geocoding для получения координат города,
-    обработки этих данных и вывода результатов на веб-страницу.
+    This function is designed to handle POST requests from the form,
+    fetch weather data for the specified city using the Open-Meteo API and
+    OpenCage Geocoding API to obtain city coordinates, process this data,
+    and display the results on the web page.
 
     Args:
-        request (HttpRequest): HTTP-запрос от пользователя.
+        request (HttpRequest): HTTP request from the user.
 
     Returns:
-        HttpResponse: Ответ с отрендеренными данными о погоде на веб-странице.
+        HttpResponse: Response with rendered weather data on the web page.
     """
 
     form = CityForm(request.POST or None)
     weather_data = None
 
     if request.method == "POST" and form.is_valid():
-        city = form.cleaned_data['city']  # Извлечение названия города из формы
+        city = form.cleaned_data['city']  # Extract city name from form
 
-        # Получение координат города с помощью OpenCage Geocoding API
+        # Get city coordinates using OpenCage Geocoding API
         OPEN_CAGE_GEO_API_URL = os.getenv('OPEN_CAGE_GEO_API_URL')
         coord_response = urllib.request.urlopen(OPEN_CAGE_GEO_API_URL)
         coord_data = json.loads(coord_response.read())
 
-        lat = coord_data['results'][0]['geometry']['lat']  # Широта
-        lng = coord_data['results'][0]['geometry']['lng']  # Долгота
+        lat = coord_data['results'][0]['geometry']['lat']  # Latitude
+        lng = coord_data['results'][0]['geometry']['lng']  # Longitude
 
-        # Установка параметров запроса к Open-Meteo API
+        # Set up request parameters for Open-Meteo API
         OPEN_METEO_API_URL = os.getenv('OPEN_METEO_API_URL')
         params = {
             "latitude": lat,
             "longitude": lng,
-            "current": [  # Параметры для получения текущих погодных данных
-                "temperature_2m",  # Температура воздуха на высоте 2 метра
-                "relative_humidity_2m",  # Относительная влажность на высоте 2 метра
-                "precipitation",  # Количество осадков
-                "surface_pressure",  # Атмосферное давление на уровне поверхности
-                "wind_speed_10m",  # Скорость ветра на высоте 10 метров
-                "wind_gusts_10m",  # Порывы ветра на высоте 10 метров
+            "current": [  # Parameters for current weather data
+                "temperature_2m",  # Air temperature at 2 meters
+                "relative_humidity_2m",  # Relative humidity at 2 meters
+                "precipitation",  # Precipitation amount
+                "surface_pressure",  # Surface pressure
+                "wind_speed_10m",  # Wind speed at 10 meters
+                "wind_gusts_10m",  # Wind gusts at 10 meters
             ],
-            "hourly": [  # Параметры для получения почасовых погодных данных
-                "temperature_2m",  # Температура воздуха на высоте 2 метра
-                "relative_humidity_2m",  # Относительная влажность на высоте 2 метра
-                "precipitation_probability",  # Вероятность осадков
-                "surface_pressure",  # Атмосферное давление на уровне поверхности
-                "wind_speed_10m",  # Скорость ветра на высоте 10 метров
-                "wind_gusts_10m",  # Порывы ветра на высоте 10 метров
+            "hourly": [  # Parameters for hourly weather data
+                "temperature_2m",  # Air temperature at 2 meters
+                "relative_humidity_2m",  # Relative humidity at 2 meters
+                "precipitation_probability",  # Precipitation probability
+                "surface_pressure",  # Surface pressure
+                "wind_speed_10m",  # Wind speed at 10 meters
+                "wind_gusts_10m",  # Wind gusts at 10 meters
             ]
         }
 
-        # Получение ответа от Open-Meteo API
+        # Get response from Open-Meteo API
         responses = openmeteo.weather_api(OPEN_METEO_API_URL, params=params)
         response = responses[0]
 
-        # Обработка текущих данных о погоде
+        # Process current weather data
         current = response.Current()
 
         def get_value(variable, index):
             """
-            Извлекает значение переменной по индексу.
+            Extracts the value of a variable by index.
 
             Args:
-                variable: Объект переменной для извлечения значения.
-                index (int): Индекс значения в переменной.
+                variable: Variable object to extract value from.
+                index (int): Index of the value in the variable.
 
             Returns:
-                float: Округленное до одной десятой значение переменной
-                    или None, если значение не удалось получить.
+                float: Rounded value to one decimal place
+                    or None if the value could not be obtained.
             """
 
             try:
@@ -98,7 +97,7 @@ def get_weather_data(request):
             except (TypeError, IndexError):
                 return None
 
-        # Формирование словаря с текущей погодой
+        # Form a dictionary with current weather
         current_weather = {
             "temperature_2m": get_value(current, 0),
             "relative_humidity_2m": get_value(current, 1),
@@ -108,7 +107,7 @@ def get_weather_data(request):
             "wind_gusts_10m": get_value(current, 5),
         }
 
-        # Обработка данных почасового прогноза
+        # Process hourly forecast data
         hourly = response.Hourly()
         hourly_weather = {
             "hourly_temperature_2m": hourly.Variables(0).ValuesAsNumpy(),
@@ -119,9 +118,8 @@ def get_weather_data(request):
             "hourly_wind_gusts_10m": hourly.Variables(5).ValuesAsNumpy(),
         }
 
-        # Создание временного ряда на 6 часов вперед от текущего времени,
-        # округление данных до ближайшего целого часа и вывод
-        # только информации о времени
+        # Create a time series for the next 6 hours from the current time,
+        # round the data to the nearest hour, and output only the time information
         current_time = datetime.datetime.now().replace(
             minute=0,
             second=0,
@@ -177,14 +175,14 @@ def get_weather_data(request):
                 "wind_gusts_10m": data['wind_gusts_10m']
             })
 
-        # Формирование данных о погоде для передачи в контекст шаблона
+        # Form weather data to pass to the template context
         weather_data = {
             "current": current_weather,
             "hourly": hourly_weather_list,
             "city": city
         }
 
-    # Формирование контекста для передачи в шаблон
+    # Form context to pass to the template
     context = {
         "form": form,
         "weather_data": weather_data

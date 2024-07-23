@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Что там с погодой?</title>
+    <title>What's Up with the Weather?</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="container">
-        <h1>Что там с погодой?</h1>
+        <h1>What's Up with the Weather?</h1>
         <form method="post">
             {% csrf_token %}
             <br>
@@ -19,29 +19,28 @@
             <br>
             {{ form.city.errors }}
             <br>
-            <button type="submit">Узнать</button>
+            <button type="submit">Find Out</button>
         </form>
-
         {% if weather_data %}
-            <h2>Сейчас в {{ weather_data.city }}</h2>
-            <p>Температура: {{ weather_data.current.temperature_2m }}°C</p>
-            <p>Влажность: {{ weather_data.current.relative_humidity_2m }}%</p>
-            <p>Осадки: {{ weather_data.current.precipitation }} мм</p>
-            <p>Атмосферное давление: {{ weather_data.current.surface_pressure }} гПа</p>
-            <p>Скорость ветра: {{ weather_data.current.wind_speed_10m }} м/с</p>
-            <p>Порывы ветра: {{ weather_data.current.wind_gusts_10m }} м/с</p>
+            <h2>Current Weather in {{ weather_data.city }}</h2>
+            <p>Temperature: {{ weather_data.current.temperature_2m }}°C</p>
+            <p>Humidity: {{ weather_data.current.relative_humidity_2m }}%</p>
+            <p>Precipitation: {{ weather_data.current.precipitation }} mm</p>
+            <p>Surface Pressure: {{ weather_data.current.surface_pressure }} hPa</p>
+            <p>Wind Speed: {{ weather_data.current.wind_speed_10m }} m/s</p>
+            <p>Wind Gusts: {{ weather_data.current.wind_gusts_10m }} m/s</p>
 
-            <h2>А потом</h2>
+            <h2>Hourly Forecast</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>Время</th>
-                        <th>Температура (°C)</th>
-                        <th>Влажность (%)</th>
-                        <th>Вероятность осадков (%)</th>
-                        <th>Давление (гПа)</th>
-                        <th>Скорость ветра (м/с)</th>
-                        <th>Порывы ветра (м/с)</th>
+                        <th>Time</th>
+                        <th>Temperature (°C)</th>
+                        <th>Humidity (%)</th>
+                        <th>Precipitation Probability (%)</th>
+                        <th>Pressure (hPa)</th>
+                        <th>Wind Speed (m/s)</th>
+                        <th>Wind Gusts (m/s)</th>
                     </tr>
                 </thead>
                 <tbody>
