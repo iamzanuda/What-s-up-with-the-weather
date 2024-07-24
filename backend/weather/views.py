@@ -15,6 +15,7 @@ load_dotenv()
 # Set up the Open-Meteo API client without caching
 openmeteo = Client()
 
+
 def get_weather_data(request):
     """
     Handles weather data requests from the user.
@@ -112,14 +113,15 @@ def get_weather_data(request):
         hourly_weather = {
             "hourly_temperature_2m": hourly.Variables(0).ValuesAsNumpy(),
             "hourly_relative_humidity_2m": hourly.Variables(1).ValuesAsNumpy(),
-            "hourly_precipitation_probability": hourly.Variables(2).ValuesAsNumpy(),
+            "hourly_precipitation_prob": hourly.Variables(2).ValuesAsNumpy(),
             "hourly_surface_pressure": hourly.Variables(3).ValuesAsNumpy(),
             "hourly_wind_speed_10m": hourly.Variables(4).ValuesAsNumpy(),
             "hourly_wind_gusts_10m": hourly.Variables(5).ValuesAsNumpy(),
         }
 
         # Create a time series for the next 6 hours from the current time,
-        # round the data to the nearest hour, and output only the time information
+        # round the data to the nearest hour,
+        # and output only the time information
         current_time = datetime.datetime.now().replace(
             minute=0,
             second=0,
@@ -133,7 +135,7 @@ def get_weather_data(request):
             end=end_time,
             freq='h',
         )
-        
+
         time_strings = [ts.strftime('%H:%M') for ts in time_range]
 
         hourly_data = {
@@ -148,7 +150,7 @@ def get_weather_data(request):
             "relative_humidity_2m": hourly_weather[
                 "hourly_relative_humidity_2m"].round(0).astype(int),
             "precipitation_probability": hourly_weather[
-                "hourly_precipitation_probability"].round(0).astype(int),
+                "hourly_precipitation_prob"].round(0).astype(int),
             "surface_pressure": hourly_weather[
                 "hourly_surface_pressure"].round(0).astype(int),
             "wind_speed_10m": hourly_weather[

@@ -1,15 +1,15 @@
 from django.test import TestCase
-from .forms import CityForm
+from weather.forms import CityForm
 
 
 class CityFormTest(TestCase):
     """
-    Тесты для формы ввода города.
+    Tests for the city input form.
     """
 
     def test_city_form_valid(self):
         """
-        Проверка валидации формы с верными данными города.
+        Check form validation with correct city data.
         """
 
         form_data = {'city': 'Moscow'}
@@ -18,9 +18,9 @@ class CityFormTest(TestCase):
 
     def test_city_form_invalid(self):
         """
-        Проверка валидации формы с неверными данными города.
+        Check form validation with incorrect city data.
         """
 
-        form_data = {'city': ''}
+        form_data = {'city': 'Moscow123'}
         form = CityForm(data=form_data)
         self.assertFalse(form.is_valid())
